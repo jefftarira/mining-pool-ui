@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { fadeOutUp } from 'react-animations';
 import './Card-info.css';
 
 class CardInfo extends Component {
@@ -12,22 +13,9 @@ class CardInfo extends Component {
   render() {
     return (
       <div className="card">
-        <div>
-          <h3>Wallet</h3>
-          <p className="valChange">{this.props.info.wallet}</p>
-
-          <h3>Balance</h3>
-          <p className="valChange">{this.props.info.wallet_balance} ETH</p>
-        
-          <h3>Sin confirmar</h3>
-          <p className="valChange">{this.props.info.immature_earning} ETH</p>
-
-          <h3>Minado en las ultimas 24 horas</h3>
-          <p className="valChange">{this.props.info.earning_24_hours} ETH</p>         
-
-          <h3>Tiempo rig1</h3>
-          <p className="valChange">{this.props.info.second_since_submit}</p>   
-
+        <div style={fadeOutUp}>
+          <p>{this.props.name}</p>
+          <h3 styel={fadeOutUp}>{this.props.value}</h3>
         </div>
       </div>
     );

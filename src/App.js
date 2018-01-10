@@ -23,30 +23,39 @@ class App extends Component {
   }
 
   loadInfo() {
-    console.log('pidiendo informacion');
-    fetch('http://dwarfpool.com/eth/api?wallet=fcefe7d7fb939057e8b00ac0ae75e4ff7c36cd1c')
+    // fetch('http://dwarfpool.com/eth/api?wallet=fcefe7d7fb939057e8b00ac0ae75e4ff7c36cd1c')
+    fetch('http://dwarfpool.com/eth/api?wallet=0xdc57f0e607c330c54De8152598959a94B832c1a0')
       .then((response) => response.json())
       .then((response) => {
         this.setState({ data: response });
       });
   }
 
-  render() {    
-    let card = <div />;
-
+  renderCards() {
     if (JSON.stringify(this.state.data) !== '{}') {
       const data = {
         wallet: this.state.data.wallet,
         wallet_balance: this.state.data.wallet_balance,
         immature_earning: this.state.data.immature_earning,
         earning_24_hours: this.state.data.earning_24_hours,
-        second_since_submit: this.state.data.workers.rig1.second_since_submit,
+        transferring_to_balance: this.state.data.transferring_to_balance,
+        hashrate: this.state.data.workers[''].hashrate,
       };
-      console.log(`Renderizando ${this.state.data.workers.rig1.second_since_submit}`);
 
-      card = <CardInfo info={data} />;
+      return (
+        <div className="container-info">
+          <CardInfo name={'Wallet'} value={this.state.data.wallet} />
+          <CardInfo name={'Balance'} value={`${this.state.data.wallet_balance} ETH`} />
+          <CardInfo name={'Transfiriendo'} value={`${data.transferring_to_balance} ETH`} />
+          <CardInfo name={'Sin confirmar'} value={`${this.state.data.immature_earning} ETH`} />
+          <CardInfo name={'Minado en la ultimas 24 Horas'} value={`${this.state.data.earning_24_hours} ETH`} />
+          <CardInfo name={'Hash rate'} value={`${data.hashrate} Mh/s`} />
+        </div>
+      );
     }
+  }
 
+  render() {
     return (
       <div className="App">
         <div className="App-header">
@@ -56,11 +65,10 @@ class App extends Component {
           </div>
         </div>
         <div className="App-intro">
-          <div className="container-info">
-            {card}
-          </div>
+          {this.renderCards()}
           <div className="container-workers">
             <h2>Workers</h2>
+            <p>{JSON.stringify(this.state.data.workers)}</p>
           </div>
         </div>
       </div>
